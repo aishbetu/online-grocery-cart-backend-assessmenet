@@ -13,7 +13,24 @@ const createUser = async (data, hashPassword) => {
     });
 
     try {
-        return await user.save();
+        await user.save();
+        return (savedUser = {
+            userId: user._id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            is_admin: user.is_admin,
+            __v: user.__v
+        });
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}
+
+// Service to get User Profile
+const getUserProfile = async (id) => {
+    try {
+        return await UserModel.findOne({_id: id})
     } catch (err) {
         console.log(err);
         return err;
@@ -58,5 +75,6 @@ module.exports = {
     createUser,
     changePassword,
     isEmailExist,
-    getUser
+    getUser,
+    getUserProfile
 }

@@ -12,4 +12,8 @@ router.post('/login', UserController.loginUser);
 
 router.put('/passwordReset', auth, UserController.updatePassword);
 
+router.get('/me', auth, UserController.getUserProfile);
+
+// TODO DELETE ROUTE
+
 module.exports = router;

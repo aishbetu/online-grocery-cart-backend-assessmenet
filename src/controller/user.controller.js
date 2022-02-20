@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // local imports
-const { createUser, isEmailExist, getUser, changePassword} = require('../services/user.service');
+const { createUser, isEmailExist, getUser, changePassword, getUserProfile} = require('../services/user.service');
 const { signupValidation, loginValidation, passwordResetValidation } = require('../validations/user.validation');
 
 
@@ -59,8 +59,21 @@ exports.loginUser = async (req, res) => {
             id: user.id
         }
     };
+
     const token = jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '7d' });
-    res.status(200).json({user,token});
+    res.status(200).json({_id: user.id, token});
+}
+
+exports.getUserProfile = async (req, res) => {
+    const userId = req.user.id;
+    try {
+        const profile = await getUserProfile(userId)
+        console.log(profile);
+        res.status(200).send({ _id: profile._id, first_name: profile.first_name, last_name: profile.last_name, email: profile.email, is_admin: profile.is_admin, __v: profile.__v });
+    } catch (err) {
+        console.log(err);
+        res.send({message: "Error Occurred", err});
+    }
 }
 
 exports.updatePassword = async (req, res) => {
