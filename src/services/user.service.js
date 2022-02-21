@@ -15,9 +15,10 @@ const createUser = async (data, hashPassword) => {
     try {
         await user.save();
         return (savedUser = {
-            userId: user._id,
+            _id: user._id,
             first_name: user.first_name,
             last_name: user.last_name,
+            email: user.email,
             is_admin: user.is_admin,
             __v: user.__v
         });
@@ -61,6 +62,16 @@ const isEmailExist = async (email) => {
     }
 }
 
+// Service  to delete User Account
+const deleteAccount = async (id) => {
+    try {
+        return await UserModel.findOneAndDelete({_id: id});
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+}
+
 // service to get user
 const getUser = async (id) => {
     try {
@@ -75,6 +86,7 @@ module.exports = {
     createUser,
     changePassword,
     isEmailExist,
+    deleteAccount,
     getUser,
     getUserProfile
 }

@@ -14,6 +14,7 @@ router.put('/passwordReset', auth, UserController.updatePassword);
 
 router.get('/me', auth, UserController.getUserProfile);
 
-// TODO DELETE ROUTE
+router.delete('/deleteAccount', auth, UserController.deleteUser);
+
 
 module.exports = router;

@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db.config');
 const productRoutes = require('./src/routes/products.route');
 const userRoutes = require('./src/routes/user.route');
+const cartRoutes = require('./src/routes/cart.route');
 
 const app = express();
 const PORT = 5001;
@@ -25,6 +26,8 @@ app.get('/', (req, res) => {
 app.use('/api/v1/products', productRoutes);
 // User/Admin Auth routes
 app.use('/api/v1/auth', userRoutes);
+// Cart routes
+app.use('/api/v1/cart', cartRoutes);
 
 app.listen(PORT, ()=> {
     console.log(`Server is running at: ${PORT}`);

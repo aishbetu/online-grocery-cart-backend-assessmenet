@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // local imports
-const { createUser, isEmailExist, getUser, changePassword, getUserProfile} = require('../services/user.service');
+const { createUser, isEmailExist, getUser, changePassword, getUserProfile, deleteAccount } = require('../services/user.service');
 const { signupValidation, loginValidation, passwordResetValidation } = require('../validations/user.validation');
 
 
@@ -27,7 +27,7 @@ exports.signupUser = async (req, res) => {
         // create JWT token & send to client
         const payload = {
             user: {
-                id: newUser.id
+                id: newUser._id
             }
         };
         const token = jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '7d' });
@@ -101,6 +101,20 @@ exports.updatePassword = async (req, res) => {
         const updatedUserPassword = await changePassword(user.id, newHashedPassword);
         console.log(updatedUserPassword);
         res.status(200).send({message: "password has been updated", updatedUserPassword});
+    } catch (err) {
+        console.log(err);
+        res.send({message: "Error Occurred", err});
+    }
+}
+
+exports.deleteUser = async (req, res) => {
+    console.log('delete called');
+    const userId = req.user.id;
+    try {
+        const deletedUser = await deleteAccount(userId);
+        console.log(deletedUser)
+        if (deletedUser == null) return res.send({message: "Account already deleted"});
+        res.status(200).send({message: "Account has been deleted", deletedUser});
     } catch (err) {
         console.log(err);
         res.send({message: "Error Occurred", err});

@@ -4,7 +4,6 @@ const User = require('../model/user.model');
 module.exports = function (req, res, next) {
 
     if (!req.header("Authorization")) return res.status(401).send({message: 'jwt token needed'});
-
     const token = req.header("Authorization").replace('Bearer ', '');
     if (!token) return res.status(401).send({message: 'Access denied!'});
 
