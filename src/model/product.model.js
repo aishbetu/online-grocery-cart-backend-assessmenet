@@ -25,8 +25,9 @@ const ProductSchema = new Schema({
         enum: ['vegetable & fruit', 'dairy', 'snacks', 'beverage', 'grain & oil', 'baby care', 'personal care', 'kitchen', 'household'],
         default: 'grain & oil'
     },
-    image_url: {
-        type: String
+    image: {
+        type: String,
+        required: true
     }
 })
 

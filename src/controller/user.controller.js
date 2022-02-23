@@ -61,7 +61,7 @@ exports.loginUser = async (req, res) => {
     };
 
     const token = jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '7d' });
-    res.status(200).json({_id: user.id, token});
+    res.status(200).json({_id: user.id, is_admin: user.is_admin, token});
 }
 
 exports.getUserProfile = async (req, res) => {

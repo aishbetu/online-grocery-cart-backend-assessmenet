@@ -8,7 +8,7 @@ exports.getProducts = async (req, res) => {
     console.log("get products called!");
     try {
         const products = await getAllProducts();
-        console.log(products);
+        // console.log(products);
         res.status(200).send(products)
     } catch (err) {
         console.log(err);
@@ -45,10 +45,23 @@ exports.addProduct = async (req, res) => {
     const { error } = addProductValidation(req.body);
     if (error) return res.status(422).send({message: error.details[0].message});
 
+    // console.log(req.file.filename);
+    // console.log(req.body);
+
     try {
-        const savedProduct = await createProduct(req.body);
-        console.log(savedProduct);
-        res.status(201).send({message: "product has been added", savedProduct});
+        const savedProduct = await createProduct(req.body, req.file);
+        // console.log(savedProduct);
+        res.status(201).send({message: "product has been added", createdProduct: {
+            title: savedProduct.title,
+            description: savedProduct.description,
+            price: savedProduct.price,
+            category: savedProduct.category,
+            request: {
+                type: 'GET',
+                url: "http://localhost:5001/uploads/" + savedProduct._id
+            },
+            _id: savedProduct._id,
+            }});
     } catch (err) {
         res.send({message: "Error Occurred", err});
     }

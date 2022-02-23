@@ -3,7 +3,24 @@ const ProductModel = require('../model/product.model');
 // service to find all products
 const getAllProducts = async () => {
     try {
-        return await ProductModel.find();
+        const products = await ProductModel.find().select("title description price category image");
+        console.log(products);
+        const modifiedProduct = products.map(product => {
+            return {
+                _id: product._id,
+                title: product.title,
+                description: product.description,
+                price: product.price,
+                category: product.category,
+                image: product.image,
+                request: {
+                    type: 'GET',
+                    url: "http://localhost:5001/uploads/" + product._id
+                }
+            }
+        });
+        console.log(modifiedProduct);
+        return modifiedProduct;
     } catch (err) {
         console.log(err);
         return err;
@@ -19,15 +36,15 @@ const findProductById = async (id) => {
 }
 
 // service to create a product
-const createProduct = async (data) => {
-    const { title, description, price, category, image_url } = data;
-
+const createProduct = async (reqBody, reqFile) => {
+    // console.log(reqBody);
+    // console.log(reqBody.path);
     const product = new ProductModel({
-        title : title,
-        description : description,
-        price : price,
-        category : category,
-        image_url : image_url
+        title : reqBody.title,
+        description : reqBody.description,
+        price : reqBody.price,
+        category : reqBody.category,
+        image : reqFile.path
     });
 
     try {

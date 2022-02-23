@@ -1,16 +1,18 @@
-const express = require('express');
-
+const express = require('express');;
 //local imports
 const ProductsController = require('../controller/products.controller');
 const auth = require('../middleware/auth');
+const multer = require('../middleware/multerImage');
 
 const router = express.Router();
 
-router.get('/', auth, ProductsController.getProducts);
+
+
+router.get('/', auth, multer, ProductsController.getProducts);
 
 router.get('/:id', auth, ProductsController.getProduct);
 
-router.post('/', auth, ProductsController.addProduct);
+router.post('/', auth, multer, ProductsController.addProduct);
 
 router.put('/:id', auth, ProductsController.updateProduct);
 
