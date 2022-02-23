@@ -80,7 +80,7 @@ exports.updateProduct = async (req, res) => {
         return res.send({message: "Error Occurred", err});
     });
     // validate admin access
-    if (!user.is_admin) return res.send({message: "Access denied! User is not admin"});
+    if (!user.is_admin) return res.send({error: "Access denied! User is not admin"});
 
     const id = req.params.id;
     const data = req.body;
