@@ -23,33 +23,3 @@ module.exports = multer({
         // cb(undefined, false)
     }
 }).single('image');
-
-// function Uploader(req, res, next) {
-//     let storage = multer.diskStorage({
-//         destination: function (req, file, cb) {
-//             cb(null, 'uploads/products');
-//         },
-//         filename: function (req, file, cb) {
-//             cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-//         }
-//     });
-//
-//     let upload = multer({
-//         storage: storage,
-//         limits: {
-//             fileSize: 1000000
-//         },
-//         fileFilter: function (req, file, cb) {
-//             if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-//                 return cb(new Error('file must be an image'))
-//             }
-//             cb(undefined, true)
-//             // cb(undefined, false)
-//         }
-//     });
-//
-//     return upload;
-//     next();
-// }
-//
-// module.exports = Uploader;

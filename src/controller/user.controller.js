@@ -6,7 +6,6 @@ const { signupValidation, loginValidation, passwordResetValidation } = require('
 
 
 exports.signupUser = async (req, res) => {
-    console.log("signup called");
     // schema validation
     const { error } = signupValidation(req.body);
     if (error) return res.status(422).send({message: error.details[0].message});
@@ -22,8 +21,6 @@ exports.signupUser = async (req, res) => {
 
     try {
         const newUser = await createUser(req.body, hashedPassword);
-        console.log(newUser);
-
         // create JWT token & send to client
         const payload = {
             user: {
@@ -38,7 +35,6 @@ exports.signupUser = async (req, res) => {
 }
 
 exports.loginUser = async (req, res) => {
-    console.log("login called");
     // schema validation
     const { error } = loginValidation(req.body);
     if (error) return res.status(422).send({message: error.details[0].message});
@@ -76,16 +72,13 @@ exports.getUserProfile = async (req, res) => {
     const userId = req.user.id;
     try {
         const profile = await getUserProfile(userId)
-        console.log(profile);
         res.status(200).send({ _id: profile._id, first_name: profile.first_name, last_name: profile.last_name, email: profile.email, is_admin: profile.is_admin, __v: profile.__v });
     } catch (err) {
-        console.log(err);
         res.send({message: "Error Occurred", err});
     }
 }
 
 exports.updatePassword = async (req, res) => {
-    console.log("updated user called");
     // schema validation
     const { error } = passwordResetValidation(req.body);
     if (error) return res.status(422).send({message: error.details[0].message});
@@ -93,7 +86,6 @@ exports.updatePassword = async (req, res) => {
     const { old_password, password } = req.body;
     // get user by id from middleware
     const user = await getUser(req.user.id).catch((err) => {
-        console.log(err);
         return res.send({message: "Error Occurred", err});
     });
 
@@ -107,24 +99,19 @@ exports.updatePassword = async (req, res) => {
 
     try {
         const updatedUserPassword = await changePassword(user.id, newHashedPassword);
-        console.log(updatedUserPassword);
         res.status(200).send({message: "password has been updated", updatedUserPassword});
     } catch (err) {
-        console.log(err);
         res.send({message: "Error Occurred", err});
     }
 }
 
 exports.deleteUser = async (req, res) => {
-    console.log('delete called');
     const userId = req.user.id;
     try {
         const deletedUser = await deleteAccount(userId);
-        console.log(deletedUser)
         if (deletedUser == null) return res.send({message: "Account already deleted"});
         res.status(200).send({message: "Account has been deleted", deletedUser});
     } catch (err) {
-        console.log(err);
         res.send({message: "Error Occurred", err});
     }
 }

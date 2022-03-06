@@ -4,7 +4,6 @@ const ProductModel = require('../model/product.model');
 const getAllProducts = async () => {
     try {
         const products = await ProductModel.find().select("title description price category image");
-        console.log(products);
         const modifiedProduct = products.map(product => {
             return {
                 _id: product._id,
@@ -19,10 +18,8 @@ const getAllProducts = async () => {
                 }
             }
         });
-        console.log(modifiedProduct);
         return modifiedProduct;
     } catch (err) {
-        console.log(err);
         return err;
     }
 }
@@ -37,8 +34,6 @@ const findProductById = async (id) => {
 
 // service to create a product
 const createProduct = async (reqBody, reqFile) => {
-    // console.log(reqBody);
-    // console.log(reqBody.path);
     const product = new ProductModel({
         title : reqBody.title,
         description : reqBody.description,
@@ -51,7 +46,6 @@ const createProduct = async (reqBody, reqFile) => {
         const saveProduct = await product.save();
         return saveProduct;
     }catch (err) {
-        console.log(err);
         return err;
     }
 }
@@ -63,7 +57,6 @@ const editProductDetails = async (_id, data) => {
             data
         );
     } catch (err) {
-        console.log(err);
         return err;
     }
 }

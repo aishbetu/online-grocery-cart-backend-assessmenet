@@ -23,7 +23,6 @@ const createUser = async (data, hashPassword) => {
             __v: user.__v
         });
     } catch (err) {
-        console.log(err);
         return err;
     }
 }
@@ -33,7 +32,6 @@ const getUserProfile = async (id) => {
     try {
         return await UserModel.findOne({_id: id})
     } catch (err) {
-        console.log(err);
         return err;
     }
 }
@@ -47,7 +45,6 @@ const changePassword = async (id, newPass) => {
             { new: true }
         );
     } catch (err) {
-        console.log(err);
         return err;
     }
 }
@@ -57,7 +54,6 @@ const isEmailExist = async (email) => {
     try {
         return await UserModel.findOne({email: email});
     } catch (err) {
-        console.log(err);
         return err;
     }
 }
@@ -67,7 +63,6 @@ const deleteAccount = async (id) => {
     try {
         return await UserModel.findOneAndDelete({_id: id});
     } catch (err) {
-        console.log(err);
         return err;
     }
 }
@@ -77,7 +72,6 @@ const getUser = async (id) => {
     try {
         return await UserModel.findOne({_id: id});
     } catch (err) {
-        console.log(err);
         return err;
     }
 }

@@ -45,7 +45,6 @@ const addProductToCart = async (userId, prodId, quantity) => {
         }
 
     } catch (err) {
-        console.log(err);
         return err;
     }
 }
@@ -55,7 +54,6 @@ const getCartItems = async (ownerId) => {
     try {
         return await Cart.findOne({owner: ownerId});
     } catch (err) {
-        console.log(err);
         return err;
     }
 }
@@ -87,7 +85,6 @@ const removeItem = async (owner, itemId) => {
             return 'Item Not Found';
         }
     } catch (err) {
-        console.log(err);
         return err;
     }
 }
