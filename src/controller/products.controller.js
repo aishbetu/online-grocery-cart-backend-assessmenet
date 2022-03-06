@@ -22,10 +22,11 @@ exports.getProduct = async (req, res) => {
     if (!req.params.id) return res.status(400).send({message: "Product id required"});
     try {
         const product = await findProductById(req.params.id);
+        if (!product) return res.status(404).send({message: "Product not found"});
         res.status(200).send(product)
     } catch (err) {
         console.log(err);
-        res.send(401).status({message: "Error Occurred", err});
+        res.status(401).send({message: "Error Occurred", err});
     }
 }
 
@@ -56,6 +57,7 @@ exports.addProduct = async (req, res) => {
             description: savedProduct.description,
             price: savedProduct.price,
             category: savedProduct.category,
+            image: savedProduct.image,
             request: {
                 type: 'GET',
                 url: "http://localhost:5001/uploads/" + savedProduct._id

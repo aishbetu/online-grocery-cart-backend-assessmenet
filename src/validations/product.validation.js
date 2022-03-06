@@ -2,7 +2,7 @@ const joi = require('joi');
 
 const addProductValidation = data => {
     const addProductSchema = joi.object({
-        title: joi.string().max(120).required(),
+        title: joi.string().max(120).required().min(3),
         description: joi.string().min(6).max(512).required(),
         price: joi.number().min(0).required(),
         category: joi.string().required().valid('vegetable & fruit', 'dairy', 'snacks', 'beverage', 'grain & oil', 'baby care', 'personal care', 'kitchen', 'household'),

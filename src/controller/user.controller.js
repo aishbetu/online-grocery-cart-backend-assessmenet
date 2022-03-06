@@ -60,8 +60,16 @@ exports.loginUser = async (req, res) => {
         }
     };
 
+    const getUser = {
+        _id: user._id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        is_admin: user.is_admin,
+    }
+
     const token = jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '7d' });
-    res.status(200).json({_id: user.id, is_admin: user.is_admin, token});
+    res.status(200).json({getUser, token});
 }
 
 exports.getUserProfile = async (req, res) => {

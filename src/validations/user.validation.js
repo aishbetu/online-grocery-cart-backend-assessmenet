@@ -2,8 +2,8 @@ const joi = require('joi');
 
 const signupValidation = data => {
     const signupSchema = joi.object({
-        first_name: joi.string().required(),
-        last_name: joi.string().required(),
+        first_name: joi.string().required().min(3),
+        last_name: joi.string().required().min(3),
         email: joi.string().email().required(),
         password: joi.string().required().min(6),
         is_admin: joi.boolean().default(false)
